@@ -5,3 +5,4 @@ backend/bin/
 node_modules/
 web/dist/
 dist/
+AGENTS.md

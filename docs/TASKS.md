@@ -48,6 +48,6 @@ Execute one phase per agent session to maintain high code quality and prevent co
 - [x] Build **Portfolio Telemetry Drawer / Inspector** displaying live `meta` telemetry (`source`, `provider_used`, `latency_ms`), cache hit ratio, circuit breaker status badges, and the **"Simulate Primary LLM Outage"** toggle switch.
 
 ## Phase 5: Portfolio Packaging & Final Verification
-- [ ] Create `backend/.env.example` and `web/.env.example` documenting all required environment variables.
-- [ ] Write root `README.md` featuring a system architecture diagram, database ERD, API latency comparison table (Redis Hit vs. Postgres Hit vs. LLM Cold Seed), and single-command local setup instructions.
-- [ ] Run end-to-end verification across all endpoints, offline PWA reload, and simulated LLM outage failover.
+- [x] Create `backend/.env.example` and `web/.env.example` documenting all required environment variables.
+- [x] Write root `README.md` featuring a system architecture diagram, database ERD, API latency comparison table (Redis Hit vs. Postgres Hit vs. LLM Cold Seed), and single-command local setup instructions.
+- [x] Run end-to-end verification across all endpoints, offline PWA reload, and simulated LLM outage failover.

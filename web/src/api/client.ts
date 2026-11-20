@@ -55,7 +55,10 @@ function notifyTelemetry(meta?: Meta): void {
   }
 }
 
-const API_BASE = (import.meta.env.VITE_API_URL as string) || ''
+const API_BASE =
+  (import.meta.env.VITE_API_BASE_URL as string) ||
+  (import.meta.env.VITE_API_URL as string) ||
+  ''
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiSuccessEnvelope<T>> {
   const headers = new Headers(options.headers || {})

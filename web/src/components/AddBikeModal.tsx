@@ -69,11 +69,18 @@ export const AddBikeModal: React.FC<AddBikeModalProps> = ({
       const initialBaselines: ComponentBaselineInput[] = []
       if (enableBaselines) {
         Object.entries(baselines).forEach(([compId, data]) => {
-          if (data.km !== undefined || data.date) {
+          if (data.km !== undefined || (data.date && data.date.trim() !== '')) {
+            let isoDate: string | null = null
+            if (data.date && data.date.trim() !== '') {
+              const d = new Date(data.date)
+              if (!isNaN(d.getTime())) {
+                isoDate = d.toISOString()
+              }
+            }
             initialBaselines.push({
               spec_component_id: compId,
               last_replaced_km: data.km !== undefined && !isNaN(data.km) ? data.km : null,
-              last_replaced_at: data.date ? new Date(data.date).toISOString() : null,
+              last_replaced_at: isoDate,
             })
           }
         })

@@ -141,9 +141,12 @@ export const MaintenanceModal: React.FC<MaintenanceModalProps> = ({
         }
       })
 
+      const d = new Date(servicedAt)
+      const validIsoDate = !isNaN(d.getTime()) ? d.toISOString() : new Date().toISOString()
+
       const req: LogMaintenanceRequest = {
         odometer_km: Number(odometerKm),
-        serviced_at: new Date(servicedAt).toISOString(),
+        serviced_at: validIsoDate,
         items,
       }
 

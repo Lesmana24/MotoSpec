@@ -26,15 +26,15 @@ Execute one phase per agent session to maintain high code quality and prevent co
   - Circuit breaker tripping to `Open` after 3 consecutive failures and bypassing primary.
 
 ## Phase 3: Domain Services, REST API & Cron Worker
-- [ ] Implement deterministic query normalizer and Indonesian brand-prefix mapper in `backend/internal/service/normalizer.go` + unit tests (`normalizer_test.go`).
-- [ ] Implement `SpecService` in `backend/internal/service/spec_service.go` orchestrating `Redis -> PostgreSQL -> singleflight -> LLM Orchestrator -> Persist & Backfill` with latency tracking.
-- [ ] Implement `GarageService` in `backend/internal/service/garage_service.go` covering:
+- [x] Implement deterministic query normalizer and Indonesian brand-prefix mapper in `backend/internal/service/normalizer.go` + unit tests (`normalizer_test.go`).
+- [x] Implement `SpecService` in `backend/internal/service/spec_service.go` orchestrating `Redis -> PostgreSQL -> singleflight -> LLM Orchestrator -> Persist & Backfill` with latency tracking.
+- [x] Implement `GarageService` in `backend/internal/service/garage_service.go` covering:
   - Dual-trigger wear calculation (`max(Wear_km, Wear_time)` uncapped above 100%).
   - Priority status classification (`unknown_needs_inspection`, `critical`, `warning`, `healthy`).
   - Cold-start onboarding (`NULL` baselines), odometer monotonicity enforcement (`ErrInvalidOdometer`), and transactional batch maintenance logging.
-- [ ] Write table-driven unit tests in `backend/internal/service/garage_service_test.go` verifying all wear formulas and edge cases.
-- [ ] Implement Gin HTTP handlers, `X-User-ID` / `X-Simulate-Outage` middleware, error-to-HTTP mapper, and graceful shutdown in `backend/internal/handler/` and `backend/cmd/api/main.go` matching `docs/API_CONTRACT.md`.
-- [ ] Implement daily odometer auto-increment cron worker (`0 0 * * *`) in `backend/internal/worker/odometer_worker.go`.
+- [x] Write table-driven unit tests in `backend/internal/service/garage_service_test.go` verifying all wear formulas and edge cases.
+- [x] Implement Gin HTTP handlers, `X-User-ID` / `X-Simulate-Outage` middleware, error-to-HTTP mapper, and graceful shutdown in `backend/internal/handler/` and `backend/cmd/api/main.go` matching `docs/API_CONTRACT.md`.
+- [x] Implement daily odometer auto-increment cron worker (`0 0 * * *`) in `backend/internal/worker/odometer_worker.go`.
 
 ## Phase 4: Offline-First PWA & Telemetry Inspector (`/web`)
 - [ ] Scaffold React + TypeScript (`strict: true`) + Vite + Tailwind CSS in `/web`.

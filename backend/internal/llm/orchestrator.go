@@ -54,6 +54,22 @@ func (o *Orchestrator) CircuitState() gobreaker.State {
 	return o.cb.State()
 }
 
+// PrimaryProviderName returns the identifier of the primary provider.
+func (o *Orchestrator) PrimaryProviderName() string {
+	return o.primary.Name()
+}
+
+// FallbackProviderName returns the identifier of the fallback provider.
+func (o *Orchestrator) FallbackProviderName() string {
+	return o.fallback.Name()
+}
+
+// CircuitBreakerStats returns the circuit breaker state and consecutive failures count.
+func (o *Orchestrator) CircuitBreakerStats() (gobreaker.State, uint32) {
+	counts := o.cb.Counts()
+	return o.cb.State(), counts.ConsecutiveFailures
+}
+
 // GenerateSpec executes the fault-tolerant LLM resolution pipeline.
 func (o *Orchestrator) GenerateSpec(ctx context.Context, canonicalSlug string, rawQuery string) (*GenerationResult, error) {
 	// 1. Check for Outage Simulation Header / Context hook

@@ -2,3 +2,6 @@
 .env
 backend/bin/
 *.exe
+node_modules/
+web/dist/
+dist/

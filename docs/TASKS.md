@@ -37,15 +37,15 @@ Execute one phase per agent session to maintain high code quality and prevent co
 - [x] Implement daily odometer auto-increment cron worker (`0 0 * * *`) in `backend/internal/worker/odometer_worker.go`.
 
 ## Phase 4: Offline-First PWA & Telemetry Inspector (`/web`)
-- [ ] Scaffold React + TypeScript (`strict: true`) + Vite + Tailwind CSS in `/web`.
-- [ ] Configure `vite-plugin-pwa` (web manifest, app icons, Workbox runtime caching) and IndexedDB wrapper (`idb`) in `web/src/storage/offlineGarage.ts`.
-- [ ] Implement typed REST API client in `web/src/api/client.ts` strictly matching `docs/API_CONTRACT.md` (injecting `X-User-ID` and `X-Simulate-Outage` headers).
-- [ ] Build mobile-first PWA views:
+- [x] Scaffold React + TypeScript (`strict: true`) + Vite + Tailwind CSS in `/web`.
+- [x] Configure `vite-plugin-pwa` (web manifest, app icons, Workbox runtime caching) and IndexedDB wrapper (`idb`) in `web/src/storage/offlineGarage.ts`.
+- [x] Implement typed REST API client in `web/src/api/client.ts` strictly matching `docs/API_CONTRACT.md` (injecting `X-User-ID` and `X-Simulate-Outage` headers).
+- [x] Build mobile-first PWA views:
   - **Spec Search & Seeder:** Search bar with instant model seeding and component interval preview.
   - **Garage Dashboard:** Motorcycle selector, odometer summary, and component cards sorted by urgency with color-coded wear progress bars.
   - **Odometer Quick-Update Modal:** Fast mileage input and daily auto-increment toggle.
   - **Batch Maintenance Logger:** Multi-select component replacement form with cost and notes.
-- [ ] Build **Portfolio Telemetry Drawer / Inspector** displaying live `meta` telemetry (`source`, `provider_used`, `latency_ms`), cache hit ratio, circuit breaker status badges, and the **"Simulate Primary LLM Outage"** toggle switch.
+- [x] Build **Portfolio Telemetry Drawer / Inspector** displaying live `meta` telemetry (`source`, `provider_used`, `latency_ms`), cache hit ratio, circuit breaker status badges, and the **"Simulate Primary LLM Outage"** toggle switch.
 
 ## Phase 5: Portfolio Packaging & Final Verification
 - [ ] Create `backend/.env.example` and `web/.env.example` documenting all required environment variables.

@@ -13,12 +13,12 @@ Execute one phase per agent session to maintain high code quality and prevent co
 - [x] Implement thread-safe `sync/atomic` telemetry store in `backend/internal/repository/telemetry.go` (`cache_hits`, `cache_misses`, `llm_primary_success`, `llm_fallback_success`, `llm_total_failures`).
 
 ## Phase 2: LLM Orchestrator & Fault-Tolerance (`internal/llm`)
-- [ ] Define `SpecGenerator` interface, `GeneratedBikeSpec` structs with `validator` tags, and context outage-simulation helpers (`WithSimulatedPrimaryOutage`) in `backend/internal/llm/types.go`.
-- [ ] Implement JSON sanitizer & domain sanity validator in `backend/internal/llm/validator.go` (strip markdown fences, unmarshal JSON, run struct validation, ensure `engine_oil` presence and unique component codes).
-- [ ] Implement Primary LLM provider adapter (e.g., Gemini 2.5 Flash REST client with `4s` context timeout and strict JSON prompt) in `backend/internal/llm/primary_provider.go`.
-- [ ] Implement Fallback LLM provider adapter (e.g., Groq Llama 3.3 70B / OpenAI-compatible client with `4s` context timeout) in `backend/internal/llm/fallback_provider.go`.
-- [ ] Implement `Orchestrator` in `backend/internal/llm/orchestrator.go` wrapping Primary with `sony/gobreaker` (trip after 3 consecutive failures, 60s open timeout) and automatic fallback routing.
-- [ ] Write table-driven unit tests in `backend/internal/llm/orchestrator_test.go` covering:
+- [x] Define `SpecGenerator` interface, `GeneratedBikeSpec` structs with `validator` tags, and context outage-simulation helpers (`WithSimulatedPrimaryOutage`) in `backend/internal/llm/types.go`.
+- [x] Implement JSON sanitizer & domain sanity validator in `backend/internal/llm/validator.go` (strip markdown fences, unmarshal JSON, run struct validation, ensure `engine_oil` presence and unique component codes).
+- [x] Implement Primary LLM provider adapter (e.g., Gemini 2.5 Flash REST client with `4s` context timeout and strict JSON prompt) in `backend/internal/llm/primary_provider.go`.
+- [x] Implement Fallback LLM provider adapter (e.g., Groq Llama 3.3 70B / OpenAI-compatible client with `4s` context timeout) in `backend/internal/llm/fallback_provider.go`.
+- [x] Implement `Orchestrator` in `backend/internal/llm/orchestrator.go` wrapping Primary with `sony/gobreaker` (trip after 3 consecutive failures, 60s open timeout) and automatic fallback routing.
+- [x] Write table-driven unit tests in `backend/internal/llm/orchestrator_test.go` covering:
   - Happy path primary generation.
   - Fallback triggered by primary HTTP error or timeout.
   - Fallback triggered by malformed JSON or sanity check failure (e.g., `interval_km < 500` or missing `engine_oil`).

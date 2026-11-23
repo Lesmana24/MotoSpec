@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	DefaultGeminiBaseURL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
-	DefaultProviderTimeout = 4 * time.Second
+	DefaultGeminiBaseURL   = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+	DefaultProviderTimeout = 15 * time.Second
 )
 
 // PrimaryProviderAdapter implements SpecGenerator for the Gemini REST API.
@@ -30,7 +30,7 @@ func NewPrimaryProvider(apiKey string, baseURL string, httpClient *http.Client) 
 		baseURL = DefaultGeminiBaseURL
 	}
 	if httpClient == nil {
-		httpClient = &http.Client{Timeout: 5 * time.Second}
+		httpClient = &http.Client{Timeout: 20 * time.Second}
 	}
 	return &PrimaryProviderAdapter{
 		name:       "gemini-2.5-flash",
@@ -54,8 +54,13 @@ type geminiPart struct {
 	Text string `json:"text"`
 }
 
+type geminiThinkingConfig struct {
+	ThinkingBudget int `json:"thinkingBudget"`
+}
+
 type geminiGenerationConfig struct {
-	ResponseMimeType string `json:"responseMimeType"`
+	ResponseMimeType string                `json:"responseMimeType"`
+	ThinkingConfig   *geminiThinkingConfig `json:"thinkingConfig,omitempty"`
 }
 
 type geminiRequest struct {
@@ -112,6 +117,9 @@ Mandatory rules:
 		},
 		GenerationConfig: geminiGenerationConfig{
 			ResponseMimeType: "application/json",
+			ThinkingConfig: &geminiThinkingConfig{
+				ThinkingBudget: 0,
+			},
 		},
 	}
 

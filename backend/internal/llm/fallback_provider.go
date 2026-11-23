@@ -30,13 +30,13 @@ func NewFallbackProvider(apiKey string, baseURL string, model string, httpClient
 		baseURL = DefaultGroqBaseURL
 	}
 	if model == "" {
-		model = "llama-3.3-70b-versatile"
+		model = "openai/gpt-oss-120b"
 	}
 	if httpClient == nil {
-		httpClient = &http.Client{Timeout: 5 * time.Second}
+		httpClient = &http.Client{Timeout: 20 * time.Second}
 	}
 	return &FallbackProviderAdapter{
-		name:       "groq-llama-3.3-70b",
+		name:       "groq-" + model,
 		apiKey:     apiKey,
 		baseURL:    baseURL,
 		model:      model,

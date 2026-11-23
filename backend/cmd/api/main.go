@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -28,7 +29,34 @@ func getEnv(key, defaultVal string) string {
 	return defaultVal
 }
 
+func loadEnvFile(path string) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return
+	}
+	lines := strings.Split(string(data), "\n")
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) == 2 {
+			k := strings.TrimSpace(parts[0])
+			v := strings.TrimSpace(parts[1])
+			if os.Getenv(k) == "" {
+				os.Setenv(k, v)
+			}
+		}
+	}
+}
+
 func main() {
+	// Attempt to load .env from current directory or backend directory
+	loadEnvFile(".env")
+	loadEnvFile("backend/.env")
+	loadEnvFile("../backend/.env")
+
 	// Configure structured JSON logging
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
@@ -41,10 +69,11 @@ func main() {
 	dbUser := getEnv("DB_USER", "postgres")
 	dbPassword := getEnv("DB_PASSWORD", "postgres")
 	dbName := getEnv("DB_NAME", "motospec")
+	dbSSLMode := getEnv("DB_SSLMODE", "disable")
 
 	dsn := getEnv("DATABASE_URL", "")
 	if dsn == "" {
-		dsn = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbPort, dbName)
+		dsn = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s", dbUser, dbPassword, dbHost, dbPort, dbName, dbSSLMode)
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -87,9 +116,10 @@ func main() {
 	// LLM Orchestrator Layer
 	geminiKey := getEnv("GEMINI_API_KEY", "")
 	groqKey := getEnv("GROQ_API_KEY", "")
+	groqModel := getEnv("GROQ_MODEL", "openai/gpt-oss-120b")
 
 	primaryProvider := llm.NewPrimaryProvider(geminiKey, "", nil)
-	fallbackProvider := llm.NewFallbackProvider(groqKey, "", "llama-3.3-70b-versatile", nil)
+	fallbackProvider := llm.NewFallbackProvider(groqKey, "", groqModel, nil)
 	llmOrchestrator := llm.NewOrchestrator(primaryProvider, fallbackProvider, telemetryStore)
 
 	// Domain Service Layer

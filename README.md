@@ -150,6 +150,18 @@ erDiagram
 
 ---
 
+### ⚡ Quick Start dengan Makefile
+Bagi reviewer atau pengembang yang memiliki tool `make`:
+```bash
+make up       # Menjalankan PostgreSQL & Redis via Docker Compose
+make backend  # Menjalankan backend Go (port 8080)
+make web      # Menjalankan frontend Vite PWA (port 5173)
+make test     # Menjalankan seluruh test backend & build frontend
+make down     # Menghentikan service Docker Compose
+```
+
+---
+
 ### Langkah 1: Jalankan Infrastruktur (Docker Compose)
 PostgreSQL dan Redis berjalan terisolasi di dalam container Docker. Port host PostgreSQL dipetakan ke `5433` untuk mencegah bentrokan dengan database PostgreSQL lokal di mesin host.
 
@@ -231,11 +243,13 @@ npm run build
 │   ├── TECH_SPEC.md           # Desain teknis, cache pipeline, LLM resilience
 │   ├── API_CONTRACT.md        # Spesifikasi REST API & error catalog
 │   └── TASKS.md               # Tracking checklist fase implementasi
+├── Makefile                   # Otomasi perintah cepat (up, backend, web, test, down)
 ├── backend/
 │   ├── cmd/api/main.go        # Entrypoint server Go & graceful shutdown
 │   ├── db/
-│   │   ├── migrations/        # File migrasi SQL (000001_init.up.sql)
-│   │   └── queries/           # File query sqlc (specs, garage, maintenance)
+│   │   ├── migrations/        # File migrasi SQL DDL (000001_init.up.sql)
+│   │   ├── queries/           # File query sqlc (specs, garage, maintenance)
+│   │   └── seeds/             # Seed data motor demo (001_demo_bikes.sql)
 │   └── internal/
 │       ├── handler/           # HTTP handlers & middleware Gin
 │       ├── service/           # Domain math, normalizer, spec & garage logic

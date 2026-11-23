@@ -25,7 +25,7 @@ const SUGGESTIONS = [
   'Honda Beat FI',
   'Yamaha Aerox 155',
   'Kawasaki Ninja 250',
-  'Vespa Sprint 150',
+  'Mio Gear 125 S',
 ]
 
 export const SpecSearchModal: React.FC<SpecSearchModalProps> = ({
